@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard_style.css') }}">
+</head>
+<body>
+    <div class="card">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <img src="{{ url_for('static', filename='images/cup2.png') }}" class="profile-icon" alt="User">
+            <span class="dashboard-text">DASHBOARD</span>
+        </div>
+
+        <!-- Cupcake Logo -->
+        <div class="center-content">
+            <img src="{{ url_for('static', filename='images/cup2.png') }}" class="cupcake" alt="Cupcake">
+            <p class="welcome">WELCOME<br>{{ user.upper() }}</p>
+        </div>
+
+        <!-- Bottom Nav (links to other routes) -->
+        <div class="bottom-bar">
+            <a href="{{ url_for('chat') }}">
+                <img src="{{ url_for('static', filename='images/chat_icon.png') }}" class="nav-icon" alt="Chat">
+            </a>
+            <a href="{{ url_for('game') }}">
+                <img src="{{ url_for('static', filename='images/game.png') }}" class="nav-icon" alt="Game">
+            </a>
+            <a href="{{ url_for('add') }}">
+                <img src="{{ url_for('static', filename='images/plus.png') }}" class="nav-icon" alt="Add">
+            </a>
+        </div>
+    </div>
+</body>
+</html>

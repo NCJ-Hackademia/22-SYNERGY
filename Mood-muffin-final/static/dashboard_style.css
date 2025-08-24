@@ -1,0 +1,70 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #1e1e1e;
+    font-family: 'Times New Roman', serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.card {
+    background: #d6c8f5;
+    width: 320px;
+    height: 550px;
+    border-radius: 10px;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+}
+
+/* Top Bar */
+.top-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+}
+
+.dashboard-text {
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+}
+
+/* Center Content */
+.center-content {
+    margin-top: 80px;
+}
+
+.cupcake {
+    width: 180px;
+    margin-bottom: 20px;
+}
+
+.welcome {
+    font-size: 22px;
+    font-weight: 600;
+    color: black;
+}
+
+/* Bottom Bar */
+.bottom-bar {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.nav-icon {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}

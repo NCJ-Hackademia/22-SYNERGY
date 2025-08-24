@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Musical Journal Chat</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #1e1e1e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: "Cursive", serif;
+    }
+
+    .container {
+      width: 380px;
+      height: 620px;
+      background-color: #d8d3f0;
+      border-radius: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 20px;
+      box-sizing: border-box;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .profile-pic {
+      width: 65px;
+      height: 65px;
+      background-color: #e6e6eb;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+
+    .welcome {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+
+    #chat-window {
+      flex: 1;
+      width: 90%;
+      background: #f9f9f9;
+      border-radius: 12px;
+      padding: 10px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Base message styling */
+    #chat-window div {
+      max-width: 70%;
+      margin: 5px;
+      padding: 8px 12px;
+      border-radius: 15px;
+      font-size: 14px;
+      word-wrap: break-word;
+    }
+
+    /* You (right side, blue bubble) */
+    .text-right {
+      align-self: flex-end;
+      background: #6c63ff;
+      color: white;
+      border-bottom-right-radius: 5px;
+    }
+
+    /* Stranger (left side, green bubble) */
+    .text-left {
+      align-self: flex-start;
+      background: #4caf50;
+      color: white;
+      border-bottom-left-radius: 5px;
+    }
+
+    /* System messages (center, yellow text) */
+    .text-center {
+      align-self: center;
+      background: transparent;
+      color: #d4a017;
+      font-style: italic;
+      font-size: 13px;
+      margin: 8px 0;
+    }
+
+    #message-input {
+      width: 80%;
+      padding: 10px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      outline: none;
+    }
+
+    button {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 20px;
+      background: #6c63ff;
+      color: white;
+      margin-left: 5px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover:not(:disabled) {
+      background: #5848d9;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .messenger {
+      display: flex;
+      width: 90%;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="profile-pic"></div>
+    <p class="welcome">Welcome User</p>
+
+    <!-- Chat window -->
+    <div id="chat-window"></div>
+
+    <div class="messenger">
+      <input id="message-input" type="text" placeholder="Type a message..." disabled />
+      <button id="send-btn" disabled>Send</button>
+    </div>
+
+    <div style="margin-top: 10px;">
+      <button id="start-btn">Start Chat</button>
+      <button id="end-btn" disabled>End Chat</button>
+    </div>
+  </div>
+
+  <!-- Socket.IO Client -->
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  <!-- External JS -->
+  <script src="../static/js/chat.js"></script>
+</body>
+</html>

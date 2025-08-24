@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whac-A-Mole</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #1e1e1e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: #dad4f7;
+      border-radius: 20px;
+      padding: 20px;
+      width: 380px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 26px;
+      color: #333;
+    }
+
+    #score, #time-left {
+      font-size: 18px;
+      margin: 8px 0;
+      color: #222;
+    }
+
+    #game-board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      gap: 12px;
+      margin: 20px auto;
+      justify-content: center;
+    }
+
+    .mole {
+      width: 100px;
+      height: 100px;
+      background-color: #f9f9ff;
+      border: 2px solid #aaa;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .mole.active {
+      background-color: #8b5cf6; /* purple when active */
+    }
+
+    #start-button {
+      padding: 10px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      background: #8b5cf6;
+      color: white;
+      margin-top: 10px;
+      transition: 0.3s;
+    }
+
+    #start-button:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+
+    #start-button:hover:not(:disabled) {
+      background: #6d28d9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Whac-A-Mole</h1>
+    <div id="score">Score: 0</div>
+    <div id="time-left">Time Left: 30s</div>
+    <button id="start-button" onclick="startGame()">Start Game</button>
+    <div id="game-board">
+      <div class="mole" id="mole-1" onclick="hitMole(1)"></div>
+      <div class="mole" id="mole-2" onclick="hitMole(2)"></div>
+      <div class="mole" id="mole-3" onclick="hitMole(3)"></div>
+      <div class="mole" id="mole-4" onclick="hitMole(4)"></div>
+      <div class="mole" id="mole-5" onclick="hitMole(5)"></div>
+      <div class="mole" id="mole-6" onclick="hitMole(6)"></div>
+      <div class="mole" id="mole-7" onclick="hitMole(7)"></div>
+      <div class="mole" id="mole-8" onclick="hitMole(8)"></div>
+      <div class="mole" id="mole-9" onclick="hitMole(9)"></div>
+    </div>
+  </div>
+
+  <script>
+    let gameInterval;
+
+    function startGame() {
+      fetch('/start_game', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+          updateGameStatus();
+          startMolePopping();
+          document.getElementById('start-button').disabled = true;
+        });
+    }
+
+    function hitMole(moleId) {
+      fetch('/hit_mole', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'hit') {
+            document.getElementById('score').innerText = `Score: ${data.score}`;
+            document.getElementById(`mole-${moleId}`).classList.remove('active');
+          }
+        });
+    }
+
+    function updateGameStatus() {
+      fetch('/game_status')
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('score').innerText = `Score: ${data.score}`;
+          document.getElementById('time-left').innerText = `Time Left: ${data.time_left}s`;
+          if (data.game_over) {
+            clearInterval(gameInterval);
+            document.getElementById('start-button').disabled = false;
+            alert(`Game Over! Final Score: ${data.score}`);
+          }
+        });
+    }
+
+    function startMolePopping() {
+      clearInterval(gameInterval);
+      gameInterval = setInterval(() => {
+        updateGameStatus();
+        const moles = document.querySelectorAll('.mole');
+        moles.forEach(mole => mole.classList.remove('active'));
+        const randomMole = Math.floor(Math.random() * 9) + 1;
+        document.getElementById(`mole-${randomMole}`).classList.add('active');
+      }, 1000);
+    }
+  </script>
+</body>
+</html>

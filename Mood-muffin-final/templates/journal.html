@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+  <title>Sentiment Journal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style> body { font-family: 'Inter', sans-serif; } </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+    <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-lg p-6 sm:p-8">
+      <header class="text-center mb-8">
+        <h1 class="text-4xl font-bold text-gray-900">Sentiment Journal</h1>
+        <p class="text-gray-500 mt-2">Your emotional state will be analyzed in real-time as you write.</p>
+
+        {% if user_profile %}
+          <div class="mt-4 inline-flex items-center bg-gray-100 rounded-full p-1">
+            <img
+              src="{{ user_profile.images[0].url if user_profile.images else 'https://placehold.co/32x32' }}"
+              alt="User" class="w-8 h-8 rounded-full"
+            >
+            <span class="mx-3 font-semibold text-gray-700">Welcome, {{ user_profile.display_name }}!</span>
+            <a href="/logout" class="text-sm text-indigo-600 hover:text-indigo-800 font-medium mr-3">Logout</a>
+          </div>
+        {% endif %}
+      </header>
+
+      <main>
+        {% if not user_profile %}
+          <div class="text-center">
+            <p class="mb-4 text-lg">Please connect your Spotify account to continue.</p>
+            <a
+              href="/login"
+              class="inline-block bg-green-500 text-white font-bold py-3 px-8 rounded-full hover:bg-green-600 transition-colors text-lg"
+            >
+              Login with Spotify
+            </a>
+          </div>
+        {% else %}
+          <div id="journal-interface">
+            <div class="mb-6">
+              <label for="journal-entry" class="block text-lg font-medium text-gray-700 mb-2">
+                How are you feeling today?
+              </label>
+              <textarea
+                id="journal-entry"
+                rows="10"
+                class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+                placeholder="Start writing here..."
+              ></textarea>
+            </div>
+
+            <!-- Now Playing UI (restored) -->
+            <div id="music-container" class="mt-6 hidden">
+              <div class="bg-gray-50 p-6 rounded-2xl">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Now Playing</h2>
+                <div id="tracks-container"></div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+
+        <div id="error-message" class="mt-8 text-center hidden"></div>
+
+        <!-- Live Analysis -->
+        <div id="results-container" class="mt-10 hidden">
+          <div class="bg-gray-50 p-6 rounded-2xl">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Live Analysis</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-lg">
+              <div>
+                <span class="font-medium text-gray-600">Detected Emotion:</span>
+                <strong id="sentiment-result">Analyzing...</strong>
+              </div>
+              <div>
+                <span class="font-medium text-gray-600">Current Stage:</span>
+                <strong id="stage-result">Analyzing...</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Spotify Web Playback SDK -->
+  <script src="https://sdk.scdn.co/spotify-player.js"></script>
+  <script src="{{ url_for('static', filename='js/journalScript.js') }}"></script>
+</body>
+</html>

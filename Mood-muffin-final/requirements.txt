@@ -1,0 +1,6 @@
+flask
+flask-socketio
+spotipy
+requests
+python-dotenv
+google-generativeai
